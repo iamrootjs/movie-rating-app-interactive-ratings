@@ -1,6 +1,7 @@
 <script setup>
 import { reactive } from "vue";
-import { StarIcon } from "@heroicons/vue/24/solid";
+import { StarIcon as SolidStarIcon } from "@heroicons/vue/24/solid";
+import { StarIcon as OutlineStarIcon } from "@heroicons/vue/24/outline";
 import { items } from "./movies.json";
 const movies = reactive(items);
 </script>
@@ -32,11 +33,16 @@ const movies = reactive(items);
             <span class="movie-item-rating-text">
               Rating: ({{ movie.rating }}/5)
             </span>
-            <StarIcon
-              v-for="star in movie.rating"
-              :key="`star-${star}`"
-              class="movie-item-star-icon"
-            />
+            <button
+              class="flex"
+              @click="movie.rating = index + 1"
+              v-for="(star, index) in 5"
+              :key="index"
+              :disabled="movie.rating === index + 1"
+            >
+              <SolidStarIcon class="movie-item-star-icon" v-if="index < movie.rating" />
+              <OutlineStarIcon class="movie-item-star-icon" v-else />
+            </button>
           </div>
         </div>
       </div>
