@@ -33,16 +33,35 @@ const movies = reactive(items);
             <span class="movie-item-rating-text">
               Rating: ({{ movie.rating }}/5)
             </span>
-            <button
-              class="flex"
-              @click="movie.rating = index + 1"
-              v-for="(star, index) in 5"
-              :key="index"
-              :disabled="movie.rating === index + 1"
-            >
-              <SolidStarIcon class="movie-item-star-icon" v-if="index < movie.rating" />
-              <OutlineStarIcon class="movie-item-star-icon" v-else />
-            </button>
+            <template>
+              <button
+                class="flex"
+                @click="updateRating(index + 1)"
+                v-for="(star, index) in 5"
+                :key="index"
+                :disabled="rating === index + 1"
+              >
+                <SolidStarIcon class="movie-item-star-icon" v-if="index < rating" />
+                <OutlineStarIcon class="movie-item-star-icon" v-else />
+              </button>
+            </template>
+
+            <script setup>
+            import { defineProps } from 'vue'
+            import { StarIcon as SolidStarIcon } from "@heroicons/vue/24/solid";
+            import { StarIcon as OutlineStarIcon } from "@heroicons/vue/24/outline";
+
+            const props = defineProps({
+              rating: {
+                type: Number,
+                required: true
+              },
+              updateRating: {
+                type: Function,
+                required: true
+              }
+            })
+            </script>
           </div>
         </div>
       </div>
